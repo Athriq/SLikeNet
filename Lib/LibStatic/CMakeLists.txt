@@ -9,7 +9,7 @@
 # license found in the license.txt file in the root directory of this source tree.
 #
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.8)
 
 project(SLikeNetLibStatic)
 
@@ -17,9 +17,11 @@ FILE(GLOB ALL_HEADER_SRCS ${SLikeNet_SOURCE_DIR}/Source/include/slikenet/*.h)
 FILE(GLOB ALL_COMPATIBILITY_HEADER_SRC ${SLikeNet_SOURCE_DIR}/Source/*.h)
 FILE(GLOB ALL_COMPATIBILITY_HEADER_SRC_2 ${SLikeNet_SOURCE_DIR}/Source/slikenet/*.h)
 FILE(GLOB ALL_CPP_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/*.cpp)
+FILE(GLOB ALL_C_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/*.c)
 FILE(GLOB CRYPTO_CPP_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/crypto/*.cpp)
+FILE(GLOB SQLITE_PLUGIN_CPP_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/SQLite3Plugin/*.cpp)
 
-add_library(SLikeNetLibStatic STATIC ${ALL_CPP_SRCS} ${CRYPTO_CPP_SRCS} ${ALL_HEADER_SRCS})
+add_library(SLikeNetLibStatic STATIC ${ALL_CPP_SRCS} ${ALL_C_SRCS} ${CRYPTO_CPP_SRCS} ${SQLITE_PLUGIN_CPP_SRCS} ${ALL_HEADER_SRCS})
 
 #if(NOT (CMAKE_VERSION VERSION_LESS 2.8))
 	# target_include_directories is only supported since CMake 2.8

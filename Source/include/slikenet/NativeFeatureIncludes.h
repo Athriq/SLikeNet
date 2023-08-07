@@ -173,6 +173,9 @@
 #ifndef _RAKNET_SUPPORT_RelayPlugin
 #define _RAKNET_SUPPORT_RelayPlugin 1
 #endif
+#ifndef _RAKNET_SUPPORT_Crypto
+#define _RAKNET_SUPPORT_Crypto 1
+#endif
 
 // Take care of dependencies
 #if _RAKNET_SUPPORT_DirectoryDeltaTransfer==1

@@ -6,6 +6,10 @@
  */
 #pragma once
 
+#include <../NativeFeatureIncludes.h>
+
+#if _RAKNET_SUPPORT_Crypto==1
+
 #include <cstddef> // required for size_t
 
 namespace SLNet
@@ -32,3 +36,5 @@ namespace SLNet
 		}
 	}
 }
+
+#endif _RAKNET_SUPPORT_Crypto

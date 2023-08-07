@@ -9,6 +9,8 @@
 // includes for concrete classes
 #include "slikenet/crypto/fileencrypter.h" // used for CFileEncrypter
 
+#if _RAKNET_SUPPORT_Crypto==1
+
 namespace SLNet
 {
 	namespace Experimental
@@ -29,3 +31,5 @@ namespace SLNet
 		}
 	}
 }
+
+#endif // _RAKNET_SUPPORT_Crypto

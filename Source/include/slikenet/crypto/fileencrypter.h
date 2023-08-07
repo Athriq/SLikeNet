@@ -6,6 +6,10 @@
  */
 #pragma once
 
+#include <../NativeFeatureIncludes.h>
+
+#if _RAKNET_SUPPORT_Crypto==1
+
 #include "ifileencrypter.h"    // used for Crypto::IFileEncrypter
 #include "securestring.h"      // used for Crypto::CSecureString
  #include <openssl/ossl_typ.h> // used for RSA
@@ -51,3 +55,5 @@ namespace SLNet
 		}
 	}
 }
+
+#endif // _RAKNET_SUPPORT_Crypto

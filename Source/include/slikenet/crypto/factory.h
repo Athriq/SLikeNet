@@ -6,6 +6,10 @@
  */
 #pragma once
 
+#include <../NativeFeatureIncludes.h>
+
+#if _RAKNET_SUPPORT_Crypto==1
+
 #include "securestring.h"   // used for SLNet::Crypto::CSecureString
 #include "ifileencrypter.h" // used for SLNet::Crypto::IFileEncrypter
 
@@ -24,3 +28,5 @@ namespace SLNet
 		}
 	}
 }
+
+#endif // _RAKNET_SUPPORT_Crypto

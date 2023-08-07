@@ -6,6 +6,8 @@
  */
 #include "slikenet/crypto/fileencrypter.h"
 
+#if _RAKNET_SUPPORT_Crypto==1
+
 #include <cstring> // used for strlen, strcpy_s
 
 #include <openssl/err.h> // used for ERR_xxxx
@@ -107,7 +109,7 @@ namespace SLNet
 
 				// #med - review the return value here - it's not documented in the manual
 				// note: cleanup() must be called so to not leak resources generated during the EVP_SignalFinal()-call
-				(void)EVP_MD_CTX_cleanup(rsaSigningContext);
+				(void)EVP_MD_CTX_free(rsaSigningContext);
 				EVP_MD_CTX_destroy(rsaSigningContext);
 
 				return success ? m_sigBuffer : nullptr;
@@ -158,7 +160,7 @@ namespace SLNet
 				const int authenticStatus = EVP_DigestVerifyFinal(rsaVerifyContext, const_cast<unsigned char*>(signature), signatureLength);
 				// #med - review the return value here - it's not documented in the manual
 				// note: cleanup() must be called so to not leak resources generated during the EVP_SignalFinal()-call
-				(void)EVP_MD_CTX_cleanup(rsaVerifyContext);
+				(void)EVP_MD_CTX_free(rsaVerifyContext);
 				EVP_MD_CTX_destroy(rsaVerifyContext);
 
 				if (authenticStatus == 1) {
@@ -310,3 +312,5 @@ namespace SLNet
 		}
 	}
 }
+
+#endif // _RAKNET_SUPPORT_Crypto

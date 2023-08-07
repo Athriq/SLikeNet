@@ -185,7 +185,7 @@ struct UPNPFramework : public SampleFramework
 		if (sampleResult==FAILED) return;
 
 		struct UPNPDev * devlist = 0;
-		devlist = upnpDiscover(2000, 0, 0, 0, 0, 0);
+		devlist = upnpDiscover(2000, 0, 0, 0, 0, 0, 0);
 		if (devlist)
 		{
 			printf("List of UPNP devices found on the network :\n");
@@ -258,7 +258,7 @@ struct UPNPFramework : public SampleFramework
 				char leaseDuration[128];
 				r = UPNP_GetSpecificPortMappingEntry(urls.controlURL,
 					data.first.servicetype,
-					eport, "UDP",
+					eport, "UDP", 0,
 					intClient, intPort,
 					desc, enabled, leaseDuration);
 

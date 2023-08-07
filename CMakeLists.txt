@@ -9,7 +9,7 @@
 # license found in the license.txt file in the root directory of this source tree.
 #
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.8)
 
 # CMake policy settings
 if( POLICY CMP0037 )
@@ -43,8 +43,29 @@ IF (WIN32 AND NOT UNIX)
 ENDIF(WIN32 AND NOT UNIX)
 
 # add package dependencies
-find_package(OpenSSL 1.0.0 REQUIRED)
-set(SLIKENET_LIBRARY_LIBS OpenSSL::Crypto OpenSSL::SSL)
+option(SLIKENET_USE_INTERNAL_SQLITE ON)
+
+add_subdirectory(DependentExtensions/UPNP)
+include_directories(DependentExtensions/UPNP/include)
+set(SLIKENET_LIBRARY_LIBS libminiupnpc-static)
+
+if(WIN32)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	    include_directories(DependentExtensions/openssl/include/x64)
+	elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+	    include_directories(DependentExtensions/openssl/include/x86)
+	endif()
+else()
+	find_package(OpenSSL REQUIRED)
+	set(SLIKENET_LIBRARY_LIBS OpenSSL::Crypto OpenSSL::SSL)
+endif()
+
+if(SLIKENET_USE_INTERNAL_SQLITE)
+	include_directories(DependentExtensions/sqlite3)
+else()
+	find_package(SQLite3 REQUIRED)
+	set(SLIKENET_LIBRARY_LIBS PUBLIC SQLite::SQLite3)
+endif()
 
 IF (WIN32 AND NOT UNIX)
 	set(SLIKENET_LIBRARY_LIBS ${SLIKENET_LIBRARY_LIBS} ws2_32.lib)
@@ -66,7 +87,7 @@ endif()
 
 # options
 IF (WIN32 AND NOT UNIX)
-	option(SLIKENET_ENABLE_SAMPLES "Generate sample projects if true."                 TRUE)
+	option(SLIKENET_ENABLE_SAMPLES "Generate sample projects if true."                 FALSE)
 ELSE (WIN32 AND NOT UNIX)
 	# building samples is disabled atm by default on Unix/Mac, since the sample projects won't compile correctly
 	option(SLIKENET_ENABLE_SAMPLES "Generate sample projects if true."                 FALSE)

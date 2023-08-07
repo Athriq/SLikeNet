@@ -6,6 +6,8 @@
  */
 #include "slikenet/crypto/securestring.h"
 
+#if _RAKNET_SUPPORT_Crypto==1
+
 // #med - review the include order - defines.h defines SLNET_VERIFY but doesn't enforce including assert.h which it honestly should
 #include "slikenet/crypto/cryptomanager.h" // used for CCryptoManager
 #include "slikenet/assert.h"               // used for assert() (via SLNET_VERIFY)
@@ -225,3 +227,5 @@ namespace SLNet
 		}
 	}
 }
+
+#endif // _RAKNET_SUPPORT_Crypto
