@@ -178,6 +178,7 @@ struct RAK_DLL_EXPORT SystemAddress
 {
 	/// Constructors
 	SystemAddress();
+	SystemAddress(const SystemAddress& other);
 	SystemAddress(const char *str);
 	SystemAddress(const char *str, unsigned short port);
 

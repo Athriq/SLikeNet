@@ -444,6 +444,12 @@ SystemAddress::SystemAddress()
 	systemIndex=(SystemIndex)-1;
 	debugPort=0;
 }
+SystemAddress::SystemAddress(const SystemAddress& other)
+{
+	memcpy(&address, &other.address, sizeof(address));
+	systemIndex = other.systemIndex;
+	debugPort = other.debugPort;
+}
 SystemAddress::SystemAddress(const char *str)
 {
 	address.addr4.sin_family=AF_INET;

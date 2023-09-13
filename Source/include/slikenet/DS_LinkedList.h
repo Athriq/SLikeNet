@@ -952,21 +952,24 @@ namespace DataStructures
 	template <class CircularLinkedListType>
 		void CircularLinkedList<CircularLinkedListType>::Clear( void )
 	{
-		if ( this->list_size == 0 )
-			return ;
+		if (this->list_size == 0)
+		{
+			return;
+		}
 		else
-			if ( this->list_size == 1 )  // {SLNet::OP_DELETE(root->item); SLNet::OP_DELETE(root, _FILE_AND_LINE_);}
+		{
+			if (this->list_size == 1)  // {SLNet::OP_DELETE(root->item); SLNet::OP_DELETE(root, _FILE_AND_LINE_);}
 			{
 				SLNet::OP_DELETE(this->root, _FILE_AND_LINE_);
 			}
-
+		
 			else
 			{
 				node* current;
 				node* temp;
-
+		
 				current = this->root;
-
+		
 				do
 				{
 					temp = current;
@@ -974,13 +977,14 @@ namespace DataStructures
 					// SLNet::OP_DELETE(temp->item, _FILE_AND_LINE_);
 					SLNet::OP_DELETE(temp, _FILE_AND_LINE_);
 				}
-
-				while ( current != this->root );
+		
+				while (current != this->root);
 			}
-
+		
 			this->list_size = 0;
 			this->root = 0;
 			this->position = 0;
+		}
 	}
 
 	template <class CircularLinkedListType>
@@ -1119,14 +1123,14 @@ namespace DataStructures
 
 		// Split the list into two equal size sublists, L1 and L2
 
-		for ( counter = 0; counter < L.LinkedList_size / 2; counter++ )
+		for (counter = 0; counter < L.list_size / 2; counter++)
 		{
 			// L1.add (*(location->item));
 			L1.Add ( location->item );
 			location = location->next;
 		}
 
-		for ( ;counter < L.LinkedList_size; counter++ )
+		for (; counter < L.list_size; counter++)
 		{
 			// L2.Add(*(location->item));
 			L2.Add ( location->item );
@@ -1154,7 +1158,7 @@ namespace DataStructures
 
 		// While neither list is empty
 
-		while ( ( L1.LinkedList_size != 0 ) && ( L2.LinkedList_size != 0 ) )
+		while ((L1.list_size != 0) && (L2.list_size != 0))
 		{
 			// Compare the first items of L1 and L2
 			// Remove the smaller of the two items from the list
@@ -1178,10 +1182,10 @@ namespace DataStructures
 		}
 
 		// Add the remaining list to X
-		if ( L1.LinkedList_size != 0 )
-			X.concatenate( L1 );
+        if (L1.list_size != 0)
+			X.Concatenate( L1 );
 		else
-			X.concatenate( L2 );
+            X.Concatenate(L2);
 
 		return X;
 	}

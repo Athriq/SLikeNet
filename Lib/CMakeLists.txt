@@ -11,7 +11,7 @@
 
 cmake_minimum_required(VERSION 3.8)
 
-set(SLIKENET_INTERNAL_INCLUDE_DIRS 
+set(SLIKENET_INTERNAL_INCLUDE_DIRS ${SLIKENET_INTERNAL_INCLUDE_DIRS}
 	${SLikeNet_SOURCE_DIR}/Source/include
 	${SLikeNet_SOURCE_DIR}/DependentExtensions
 )

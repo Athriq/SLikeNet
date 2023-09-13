@@ -17,20 +17,18 @@ FILE(GLOB ALL_HEADER_SRCS ${SLikeNet_SOURCE_DIR}/Source/include/slikenet/*.h)
 FILE(GLOB ALL_COMPATIBILITY_HEADER_SRC ${SLikeNet_SOURCE_DIR}/Source/*.h)
 FILE(GLOB ALL_COMPATIBILITY_HEADER_SRC_2 ${SLikeNet_SOURCE_DIR}/Source/slikenet/*.h)
 FILE(GLOB ALL_CPP_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/*.cpp)
-FILE(GLOB ALL_C_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/*.c)
 FILE(GLOB CRYPTO_CPP_SRCS ${SLikeNet_SOURCE_DIR}/Source/src/crypto/*.cpp)
 
-add_library(SLikeNetDLL SHARED ${ALL_CPP_SRCS} ${ALL_C_SRCS} ${CRYPTO_CPP_SRCS} ${ALL_HEADER_SRCS})
+add_library(SLikeNetDLL SHARED ${ALL_CPP_SRCS} ${CRYPTO_CPP_SRCS} ${ALL_HEADER_SRCS})
 
-#if(NOT (CMAKE_VERSION VERSION_LESS 2.8))
-	# target_include_directories is only supported since CMake 2.8
-#	target_include_directories(SLikeNetLibDLL PUBLIC
-#		$<BUILD_INTERFACE:${SLIKENET_INTERNAL_INCLUDE_DIRS}>
-#		$<INSTALL_INTERFACE:include/slikenet-${SLikeNet_VERSION}>
-#	)
-#else()
-	include_directories(${SLIKENET_INTERNAL_INCLUDE_DIRS})
-#endif()
+if(WIN32)
+	target_include_directories(SLikeNetDLL PUBLIC ${SLIKENET_INTERNAL_INCLUDE_DIRS})
+else()
+	target_include_directories(SLikeNetDLL PUBLIC
+	    $<BUILD_INTERFACE:${SLikeNet_SOURCE_DIR}/Source/include>
+	    $<INSTALL_INTERFACE:include/SLikeNetDLL>
+	)
+endif()
 
 # set the version number
 set_target_properties(SLikeNetDLL PROPERTIES

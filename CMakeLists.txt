@@ -43,28 +43,40 @@ IF (WIN32 AND NOT UNIX)
 ENDIF(WIN32 AND NOT UNIX)
 
 # add package dependencies
-option(SLIKENET_USE_INTERNAL_SQLITE ON)
+option(SLIKENET_USE_INTERNAL_SQLITE "Use SQLite that's packaged with SLikeNet" ON)
 
 add_subdirectory(DependentExtensions/UPNP)
 include_directories(DependentExtensions/UPNP/include)
-set(SLIKENET_LIBRARY_LIBS libminiupnpc-static)
+set(SLIKENET_LIBRARY_LIBS ${SLIKENET_LIBRARY_LIBS} libminiupnpc-static)
 
 if(WIN32)
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	    include_directories(DependentExtensions/openssl/include/x64)
+	    set(OPENSSL_INCLUDE_PATH ${SLikeNet_SOURCE_DIR}/DependentExtensions/openssl/include/x64)
+		set(OPENSSL_LIB_PATH ${SLikeNet_SOURCE_DIR}/DependentExtensions/openssl/lib/x64)
 	elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-	    include_directories(DependentExtensions/openssl/include/x86)
+	    set(OPENSSL_INCLUDE_PATH ${SLikeNet_SOURCE_DIR}/DependentExtensions/openssl/include/x86)
+		set(OPENSSL_LIB_PATH ${SLikeNet_SOURCE_DIR}/DependentExtensions/openssl/lib/x86)
 	endif()
+
+	if(CMAKE_BUILD_TYPE EQUAL "Debug")
+		set(OPENSSL_LIB_PATH ${OPENSSL_LIB_PATH}/Debug)
+	else()
+		set(OPENSSL_LIB_PATH ${OPENSSL_LIB_PATH}/Release)
+	endif()
+
+	set(SLIKENET_LIBRARY_LIBS ${SLIKENET_LIBRARY_LIBS} ${OPENSSL_LIB_PATH}/libssl.lib ${OPENSSL_LIB_PATH}/libcrypto.lib)
+
+	set(SLIKENET_INTERNAL_INCLUDE_DIRS ${OPENSSL_INCLUDE_PATH})
 else()
 	find_package(OpenSSL REQUIRED)
-	set(SLIKENET_LIBRARY_LIBS OpenSSL::Crypto OpenSSL::SSL)
+	set(SLIKENET_LIBRARY_LIBS ${SLIKENET_LIBRARY_LIBS} OpenSSL::Crypto OpenSSL::SSL)
 endif()
 
 if(SLIKENET_USE_INTERNAL_SQLITE)
 	include_directories(DependentExtensions/sqlite3)
 else()
 	find_package(SQLite3 REQUIRED)
-	set(SLIKENET_LIBRARY_LIBS PUBLIC SQLite::SQLite3)
+	set(SLIKENET_LIBRARY_LIBS ${SLIKENET_LIBRARY_LIBS} PUBLIC SQLite::SQLite3)
 endif()
 
 IF (WIN32 AND NOT UNIX)
